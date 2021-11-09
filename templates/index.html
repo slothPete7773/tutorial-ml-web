@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CO2 Emission Prediction</title>
+</head>
+<body>
+  <div>
+    <h1>Predict CO2 Emission of a vehicle</h1>
+    <h3>Fill in the following values to predict the CO2 emission from the vehicle.</h3>
+
+    <form action="{{ url_for('predict') }}" method="post">
+      <input type="text" name="enginesize" placeholder="Engine Size" required="required">
+      <input type="text" name="cylinders" placeholder="cylinders" required="required">
+      <input type="text" name="fuel" placeholder="fuel" required="required">
+
+      <button type="submit" class="btn">Predict</button>
+    </form>
+
+  <br>
+  <br>
+  {{ prediction_text }}
+  </div>
+</body>
+</html>
