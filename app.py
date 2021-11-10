@@ -2,10 +2,12 @@ from logging import debug
 import numpy as np
 from flask import Flask, render_template, request
 import pickle
+from joblib import load
 
 # Initialize flask app
 app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
+model = load("model.joblib")
+tfidf = load("tfidf.joblib")
 
 # Default route of app
 
@@ -19,11 +21,16 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    int_features = [float(x) for x in request.form.values()]
-    test_features = [np.array(int_features)]
-    prediction = model.predict(test_features)
-    output = round(prediction[0], 2)
-    return render_template('index.html', prediction_text='CO2 Emission of the vehicle is :{}'.format(output))
+    # int_features = [float(x) for x in request.form.values()]
+    sentence = [x for x in request.form.values()]
+    print(sentence[0])
+
+    test_features = tfidf.transform([sentence[0]])
+    prediction = model.predict(test_features)[0]
+
+    labels = ['anger', 'disgust', 'fear', 'joy', 'sadness', 'surprise']
+    predicted_class = labels[prediction]
+    return render_template('index.html', prediction_text='Sentence predicted class :{}'.format(predicted_class))
 
 
 if __name__ == "__main__":
