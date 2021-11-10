@@ -1,7 +1,4 @@
-from logging import debug
-import numpy as np
 from flask import Flask, render_template, request
-import pickle
 from joblib import load
 
 # Initialize flask app
